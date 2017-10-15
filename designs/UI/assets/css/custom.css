@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css?family=Leckerli+One');
+.body-bg{
+	background-image: url('../img/bg.jpg');
+    background-color: rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-position: 50% 50%;
+    background-attachment: fixed;
+}
+.dash{
+	background-color: rgba(101, 143, 125, 0.66);
+}
+.btn-label{
+	background-color: #fff;
+	border-width: 1px 0px 1px 1px;
+	border-color:#eee;
+	color: rgba(73, 80, 87, 0.6);
+	font-size: 1.3rem;
+}
+.btn-label-texarea{
+	background-color: #fff;
+	border-width: 1px 0px 1px 1px;
+	border-color:#eee;
+	border-right-color: #fff;
+	color: rgba(73, 80, 87, 0.6);
+	z-index: 10;
+	font-size: 1.3rem;
+}
+.btn-focus,.btn-label-active{
+	color: #495057;
+    background-color: #fff;
+    border-color: #bac1a6;
+    outline: 0;
+}
+.btn-label-textarea-active{
+	color: #495057;
+    background-color: #fff;
+    border-color: #bac1a6;
+    border-right-color: #fff;
+    outline: 0;
+}
+.gr-group{
+	height: 100%;
+	padding-right: 1px;
+}
+.gr-input{
+	border-width: 1px 1px 1px 0px;
+	border-color:#eee;
+}
+.gr-textarea{
+	border-width: 1px 1px 1px 1px;
+	border-color:#eee;
+	margin-left: -1px;
+	height: 10rem;
+	resize: none;
+}
+.input-group-btn-active .btn.btn-label{
+	color: #495057;
+    background-color: #fff;
+    border-color: #bac1a6;
+    outline: 0;
+}
+.input-group-btn-active .btn.btn-label-texarea{
+	color: #495057;
+    background-color: #fff;
+    border-color: #bac1a6;
+    border-right-color: #fff; 
+    outline: 0;
+}
+.input-group-btn-active .btn.btn-label-texarea:hover,.btn.btn-label-texarea:focus{
+	z-index: 99;
+}
+.gr-textarea.form-control:focus,.gr-input.form-control:focus{
+	color: #495057;
+    background-color: #fff;
+    border-color: #bac1a6;
+    outline: 0;
+}
+/* Remove Bootstrap Deafault Button text shadow */
+.btn.focus, .btn:focus {
+    outline: 0;
+    box-shadow: 0 0 0 0 transparent;
+}
+button.navbar-toggler{
+	outline: 0;
+}
+.no-padding{
+	padding-right: 0;
+	padding-left: 0;
+}
+.navbar-light .navbar-toggler{
+	border-color:transparent;
+}
+.content{
+	padding-top: 8%;
+	padding-bottom: 8%;
+}
+.content-dash{
+	padding-top: 3%;
+	padding-bottom: 8%;
+}
+.form-card{
+	background-color: rgba(248, 249, 250, 0.73);
+	border: none;
+}
+.yummy{
+	font-family: 'Leckerli One', cursive;
+	color: #20af1d;
+}
+a.navbar-brand.yummy{
+	color: #20af1d;	
+}
+a.navbar-brand.yummy:focus, a.navbar-brand.yummy:hover{
+	color: rgba(32, 175, 29, 0.83);	
+}
+.credit{
+	font-weight:600;
+}
+.footer{
+	padding-bottom: 4%;
+}
+.divider{
+	min-height: 2rem,
+}
+.recent-recipes{
+    height: 23rem;
+    scroll-behavior: auto;
+	scroll-behavior: smooth;
+}
+.recent-recipes .card{
+	margin-top: 1rem;
+}
+.all-recipes .card-comp{
+	margin-top: 1rem;
+}
+/* Override default(in Bootstrap) select element height */
+select.form-control:not([size]):not([multiple]){
+	height: auto;
+}
+.recipes-card-header{
+	padding: 0rem 0rem;
+	border-bottom: 1px solid rgba(40, 167, 69, 0.32);
+}
+.recipes-card-header .sticky-search{
+	padding: .4rem .75rem;
+	border-top: 1px solid rgba(40, 167, 69, 0.32);
+}
+.recipes-card-header .title{
+	padding: 1rem;
+	display: inline-block;
+}
+.all-recipes-body{
+	padding-top: 0;
+}
+.btn-like{
+	font-size: 4rem;
+	color: #28a745;
+}
+.single-card{
+	border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+.single-card .rec-description{
+	color: #555;
+}
+.single-card a:hover{
+	text-decoration: none;
+}
+.likes-div{
+	background-color: #fff;
+	border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    border-left:none;
+    border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	cursor: pointer;
+}
+#recent-recipes{
+	border-left: 5px solid rgba(40, 167, 69, 0.59);
+}
+.drop{
+	margin-top: .6rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border: 0;
+    padding: 0 0;
+}
+.drop .dropdown-item:last-child{
+	border-bottom-left-radius: .25rem;
+	border-bottom-right-radius: .25rem;
+}
+/** Customize dropdown Menu styles**/
+.dropdown-item.active, .dropdown-item:active{
+	background-color: #28a745;
+}
+.dropdown-item:focus, .dropdown-item:hover{
+	background-color: #d6dedc;
+}
+.dropdown-toggle::after{
+  content: "\f397";
+  display: inline-block;
+  font-family: "Ionicons";
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  text-rendering: auto;
+  line-height: 1;
+  border-right: 0;
+  margin-left: .4em;
+  border-top: 0;
+  font-size: 1.3rem;
+  vertical-align: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.badge{
+	font-weight: 600;
+	padding: .4em .4em;
+}
