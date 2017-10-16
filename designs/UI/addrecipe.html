@@ -41,10 +41,14 @@
             </div>
             <ul class="navbar-nav ml-auto">
               <li class="nav-item">
-                <a class="nav-link" href="login.html">Login</a>
+                <a class="nav-link text-success" href="recipes.html"><i class="ion-ios-list-outline"></i>&nbsp;&nbsp;My recipes</a>
               </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="index.html">Join</a>
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle text-success" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="ion-ios-person"></i>&nbsp;&nbsp;Account</a>
+                <div class="dropdown-menu animated flipInX drop bg-light">
+                  <!--<a class="dropdown-item text-success" href="settings.html"><i class="ion-ios-gear-outline"></i>&nbsp;&nbsp;Settings</a>-->
+                  <a class="dropdown-item text-success" href="index.html"><i class="ion-log-out"></i>&nbsp;&nbsp;Logout</a>
+                </div>
               </li>
             </ul>
           </div>
@@ -71,7 +75,7 @@
                         <input type="text" name="name" class="form-control gr-input" placeholder="Recipe name ..." aria-label="Recipe name">
                       </div>
                     </div>
-                    <div class="form-group">
+                    <!--<div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
@@ -84,7 +88,7 @@
                           <option>Burgers</option>
                         </select>
                       </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn gr-group">
@@ -144,9 +148,10 @@
 <!--Footer-->
       <div class="container text-center">
         <div class="row footer">
-          <div class="col align-self-center">
-            <i class="text-light">Yummy Recipes Community 2017</i><br>
-            <div class="credit text-light">Made with ♥ by Emery</div>
+          <div class="col align-self-center text-success">
+            <br>
+            <i class="">Yummy Recipes Community 2017</i><br>
+            <div class="credit">Made with ♥ by Emery</div>
           </div>
         </div>
       </div>

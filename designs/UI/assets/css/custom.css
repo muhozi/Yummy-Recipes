@@ -220,3 +220,24 @@ select.form-control:not([size]):not([multiple]){
 	font-weight: 600;
 	padding: .4em .4em;
 }
+/*-- Add point to every button --*/
+.btn{
+	cursor: pointer;
+}
+.recipes-cat{
+	margin-top: 5%;
+}
+.hover-buttons{
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center !important;
+    padding-top: 4%;
+    background-color: rgba(254, 254, 254, 0.39);
+}
+.hover-buttons{
+	display: none;
+}

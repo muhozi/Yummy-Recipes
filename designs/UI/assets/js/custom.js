@@ -10,3 +10,11 @@ $('.gr-textarea').focus(function(){
 $('.gr-textarea').blur(function(){
 	$(this).prev('.input-group-btn').removeClass('input-group-btn-active');
 });
+$('.recipes-cat .list-group-item').hover(function(){
+	$(this).children('.hover-buttons').show();
+},
+function(){
+	$(this).children('.hover-buttons').hide();	
+});
+
+
