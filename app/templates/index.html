@@ -1,0 +1,66 @@
+{% extends 'includes/master.html' %}
+{%block title %}
+  Join to Share and discover your yummy recipes
+{% endblock %}
+{%block body %}
+<!--Main Content -->
+      <div class="container">
+        <section class="content">
+          <div class="row justify-content-end">
+            <div class="col-md-6">
+              <div class="card form-card animated fadeIn">
+                <div class="card-header text-center">
+                  <h4><span class="yummy">Yummy Recipes</span></h4>
+                  Join Yummy Recipes Fans
+                </div>
+                <div class="card-body">
+                  <form method="POST" action="recipes.html">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-person"></i></button>
+                        </span>
+                        <input type="text" name="name" class="form-control gr-input" placeholder="Full name ..." aria-label="Enter your full name">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-email"></i></button>
+                        </span>
+                        <input type="text" name="email" class="form-control gr-input" placeholder="Email ..." aria-label="Enter your email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-unlocked"></i></button>
+                        </span>
+                        <input type="password" name="password" class="form-control gr-input" placeholder="Enter password ..." aria-label="Enter your email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-unlocked"></i></button>
+                        </span>
+                        <input type="password" name="repassword" class="form-control gr-input" placeholder="Re-enter password ..." aria-label="Enter your email">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group justify-content-center">
+                        <button type="submit" name="register" class="btn btn-success btn-block">Join</button>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+                <div class="card-body text-center">
+                  Already have an account <a href="login.html" class="text-success">Login</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+<!--/Main content-->
+{% endblock %}

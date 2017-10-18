@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="Yummy Recipes">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='img/fav-icons/apple-touch-icon.png')}}">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='img/fav-icons/favicon-32x32.png')}}">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='img/fav-icons/favicon-16x16.png')}}">
+        <link rel="manifest" href="{{ url_for('static', filename='img/fav-icons/manifest.json')}}">
+        <link rel="mask-icon" href="{{ url_for('static', filename='img/fav-icons/safari-pinned-tab.svg')}}" color="#20af1d">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='img/fav-icons/favicon.ico')}}">
+        <meta name="msapplication-config" content="static/img/fav-icons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <title>{% block title %}{% endblock %}</title>
+        <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet"/>
+        <link href="{{ url_for('static', filename='css/ionicons.min.css') }}" rel="stylesheet"/>
+        <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet"/>
+        <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet"/>
+    </head>
+    <body class="body-bg">
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-right">
+        <div class="container">
+        <a class="navbar-brand yummy" href="#">Yummy Recipes</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarDropdown" aria-controls="navbarDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarDropdown">
+          <div class="col-md-7 no-padding">
+            <form class="form-inline" method="GET">
+              <div class="input-group col-md-12 no-padding">
+                <span class="input-group-btn">
+                  <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-search-strong"></i></button>
+                </span>
+                <input type="text" type="submit" name="search" class="form-control gr-input" placeholder="Search some recipes ..." aria-label="Search recipes">
+              </div>
+            </form>
+          </div>
+          <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">Join</a>
+            </li>
+          </ul>  
+        </div>
+      </div>
+      </nav>
+<!--/Navbar-->
+    {% block body %}{% endblock %}
+    <!--Footer-->
+      <div class="container text-center">
+        <div class="row footer">
+          <div class="col align-self-center">
+            <i class="text-light">Yummy Recipes Community 2017</i><br>
+            <div class="credit text-light">Made with ♥ by Emery</div>
+          </div>
+        </div>
+      </div>
+    <!--/Footer-->
+    <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
+  </body>
+</html>

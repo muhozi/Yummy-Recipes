@@ -1,0 +1,96 @@
+{% extends 'includes/header.html' %}
+{%block title %}
+  Add recipe - Share your favorite recipes
+{% endblock %}
+{%block body %}
+<!-- Main Content -->
+      <div class="container-fluid dash">
+        <section class="content-dash container">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="card form-card animated fadeIn">
+                <div class="card-header text-center">
+                  <h6 class="text-success">Add recipe</h6>
+                  
+                </div>
+                <div class="card-body">
+                  <form method="POST" action="">
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-nutrition"></i></button>
+                        </span>
+                        <input type="text" name="name" class="form-control gr-input" placeholder="Recipe name ..." aria-label="Recipe name">
+                      </div>
+                    </div>
+                    <!--<div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
+                        </span>
+                        <select type="text" name="category" class="form-control gr-input">
+                          <option>Ice cream</option>
+                          <option>Drinks</option>
+                          <option>Dessert</option>
+                          <option>Chips</option>
+                          <option>Burgers</option>
+                        </select>
+                      </div>
+                    </div>-->
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn gr-group">
+                          <button class="btn btn-label-texarea" type="button" tabindex="-1"><i class="ion-android-restaurant"></i></button>
+                        </span>
+                        <textarea name="description" class="form-control gr-textarea" placeholder="Recipe description ..." aria-label="Recipe description"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group text-center">
+                      <br><br>
+                        <button type="submit" name="save" class="btn btn-success">Save recipe</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card form-card animated fadeIn" id="recent-recipes">
+                <div class="card-header text-center">
+                  <h6 class="text-success">Recently added recipes</h6>
+                </div>
+                <div class="card-body recent-recipes">
+                      <div class="card animated fadeIn">
+                        <div class="card-header">
+                          Recently added recipes
+                        </div>
+                        <div class="card-body">
+                          <p>
+                            Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+                          </p>
+                        </div>
+                      </div>
+                      <div class="divider"> </div>
+                      <div class="card animated fadeIn">
+                        <div class="card-header">
+                          Recently added recipes
+                        </div>
+                        <div class="card-body">
+                          <p>
+                            Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+                          </p>
+                        </div>
+                      </div>
+                </div>
+                <div class="card-body text-center">
+                  <a href="recipes.html">
+                    <span class="btn btn-sm btn-success">View all recipes
+                    <span class="badge bg-light badge-pill text-success">6</span>
+                    </span>
+                  </a>
+                </div>
+              </div>
+            </div>
+        </section>
+      </div>
+<!--/Main Content-->
+{% endblock %}
