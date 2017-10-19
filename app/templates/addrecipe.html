@@ -15,34 +15,29 @@
                 </div>
                 <div class="card-body">
                   <form method="POST" action="">
+                    {{ form.csrf_token }}
                     <div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-nutrition"></i></button>
                         </span>
-                        <input type="text" name="name" class="form-control gr-input" placeholder="Recipe name ..." aria-label="Recipe name">
+                        {{form.name(placeholder="Recipe name ...",class="form-control gr-input")}}
                       </div>
                     </div>
-                    <!--<div class="form-group">
+                    <div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
                         </span>
-                        <select type="text" name="category" class="form-control gr-input">
-                          <option>Ice cream</option>
-                          <option>Drinks</option>
-                          <option>Dessert</option>
-                          <option>Chips</option>
-                          <option>Burgers</option>
-                        </select>
+                        {{ form.category(class="form-control gr-input")}}
                       </div>
-                    </div>-->
+                    </div>
                     <div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn gr-group">
                           <button class="btn btn-label-texarea" type="button" tabindex="-1"><i class="ion-android-restaurant"></i></button>
                         </span>
-                        <textarea name="description" class="form-control gr-textarea" placeholder="Recipe description ..." aria-label="Recipe description"></textarea>
+                        {{ form.description(class="form-control gr-textarea",placeholder="Recipe description ...")}}
                       </div>
                     </div>
                     <div class="form-group text-center">
@@ -82,7 +77,7 @@
                       </div>
                 </div>
                 <div class="card-body text-center">
-                  <a href="recipes.html">
+                  <a href="{{ url_for('recipes') }}">
                     <span class="btn btn-sm btn-success">View all recipes
                     <span class="badge bg-light badge-pill text-success">6</span>
                     </span>

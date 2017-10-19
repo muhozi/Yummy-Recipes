@@ -15,12 +15,13 @@
                 </div>
                 <div class="card-body">
                   <form method="POST" action="recipes.html">
+                    {{ form.csrf_token }}
                     <div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-email"></i></button>
                         </span>
-                        <input type="email" name="email" class="form-control gr-input" placeholder="Email ..." aria-label="Enter your email">
+                        {{ form.email(placeholder="Email ...", class="form-control gr-input") }}
                       </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +29,7 @@
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-unlocked"></i></button>
                         </span>
-                        <input type="password" name="password" class="form-control gr-input" placeholder="Password ..." aria-label="Enter your email">
+                        {{ form.password(placeholder="Password ...", class="form-control gr-input") }}
                       </div>
                     </div>
                     <div class="form-group">

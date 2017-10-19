@@ -14,13 +14,26 @@
                   Join Yummy Recipes Fans
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="recipes.html">
+                  <form method="POST" action="/join">
+                    {{ form.csrf_token }}
+                    <div class="alert alert-success">
+
+                      {% with messages= get_flashed_messages() %}
+                      {% print(messages) %}
+                        {% if messages %}
+                          {% for message in messages %}
+                            {{message}}
+                          {% endfor %}
+                        {% endif %}
+                      {% endwith %}
+
+                    </div>
                     <div class="form-group">
                       <div class="input-group">
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-person"></i></button>
                         </span>
-                        <input type="text" name="name" class="form-control gr-input" placeholder="Full name ..." aria-label="Enter your full name">
+                        {{ form.name(placeholder="Full name ...", class="form-control gr-input") }}
                       </div>
                     </div>
                     <div class="form-group">
@@ -28,7 +41,7 @@
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-email"></i></button>
                         </span>
-                        <input type="text" name="email" class="form-control gr-input" placeholder="Email ..." aria-label="Enter your email">
+                        {{ form.email(placeholder="Email ...", class="form-control gr-input") }}
                       </div>
                     </div>
                     <div class="form-group">
@@ -44,7 +57,7 @@
                         <span class="input-group-btn">
                           <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-unlocked"></i></button>
                         </span>
-                        <input type="password" name="repassword" class="form-control gr-input" placeholder="Re-enter password ..." aria-label="Enter your email">
+                        {{ form.repassword(placeholder="Confirm password ...", class="form-control gr-input") }}
                       </div>
                     </div>
                     <div class="form-group">

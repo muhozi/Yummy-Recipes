@@ -1,8 +1,10 @@
 from flask import Flask
 
 # Initialize the app
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect()
 app = Flask(__name__, instance_relative_config=True)
-
+csrf.init_app(app)
 # Load the views
 from app import views
 
