@@ -1,0 +1,106 @@
+{% extends 'includes/master.html' %}
+{%block title %}
+  Join to Share and discover your yummy recipes
+{% endblock %}
+{%block body %}
+<!--Main Content -->
+      <div class="container">
+        <section class="content">
+          <div class="row justify-content-end">
+            <div class="col-md-6">
+              <div class="card form-card animated fadeIn">
+                <div class="card-header text-center">
+                  <h4><span class="yummy">Yummy Recipes</span></h4>
+                  Join Yummy Recipes Fans
+                </div>
+                <div class="card-body">
+                  <form method="POST" action="{{ url_for('join') }}">
+                    {{ form.csrf_token }}
+                      {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                        {% if errors|length > 0 %}
+                          {% set errors = errors[0] %}
+                        {% endif %}
+                      {% with input = get_flashed_messages(category_filter=["input"]) %}
+                        {% if input|length > 0 %}
+                          {% set input = input[0] %}
+                        {% endif %}
+                      
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-person"></i></button>
+                        </span>
+                        {{ form.name(placeholder="Full name ...", class="form-control gr-input", value = input.name) }}
+                      </div>
+                      {% if errors.name %}
+                        <span class="text-danger">
+                          {% for error in errors.name %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-email"></i></button>
+                        </span>
+                        {{ form.email(placeholder="Email ...", class="form-control gr-input", value = input.email) }}
+                      </div>
+                      {% if errors.email %}
+                        <span class="text-danger">
+                          {% for error in errors.email %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-unlocked"></i></button>
+                        </span>
+                        {{ form.password(placeholder="Password ...", class="form-control gr-input") }}
+                      </div>
+                      {% if errors.password %}
+                        <span class="text-danger">
+                          {% for error in errors.password %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-unlocked"></i></button>
+                        </span>
+                        {{ form.repassword(placeholder="Confirm password ...", class="form-control gr-input") }}
+                      </div>
+                      {% if errors.repassword %}
+                        <span class="text-danger">
+                          {% for error in errors.repassword %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
+                    </div>
+                    <div class="form-group">
+                      <div class="input-group justify-content-center">
+                        <button type="submit" name="register" class="btn btn-success btn-block">Join</button>
+                      </div>
+                    </div>
+                    {% endwith %}
+                    {% endwith %}
+                  </form>
+                </div>
+                <div class="card-body text-center">
+                  Already have an account <a href="{{ url_for('login') }}" class="text-success">Login</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+<!--/Main content-->
+{% endblock %}
