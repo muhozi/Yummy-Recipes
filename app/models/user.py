@@ -16,5 +16,6 @@ class User(object):
 			'password': self.password,
 			'created_at': self.created,
 		}
-		return Store().add_user(data)
+		Store().add_user(data)
+		return True
 		
