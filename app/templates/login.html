@@ -14,7 +14,7 @@
                   View and share your best recipes
                 </div>
                 <div class="card-body">
-                  <form method="POST" action="recipes.html">
+                  <form method="POST" action="{{ url_for('login') }}">
                     {{ form.csrf_token }}
                     <div class="form-group">
                       <div class="input-group">

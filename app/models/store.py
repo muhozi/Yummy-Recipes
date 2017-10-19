@@ -1,14 +1,16 @@
 class Store():
-	"""docstring for Store"""
-	def __init__(self, arg):
+	"""Store class"""
+	users = []
+	recipes = []
+	categories = []
+	def __init__(self, arg=None):
 		super(Store, self).__init__()
 		self.arg = arg
-		users = [];
-		recipes = [];
-		categories = [];
-	def save_user(self,data):
-		self.users.append(data);
+	def add_user(self,data):
+		self.users.append(data)
 	def save_recipe(self,data):
 		self.recipes.append(data)
 	def save_category(self,data):
-		self.categories.append(data);
+		self.categories.append(data)
+	def get_users(self):
+		return self.users
