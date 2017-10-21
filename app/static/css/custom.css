@@ -241,3 +241,6 @@ select.form-control:not([size]):not([multiple]){
 .hover-buttons{
 	display: none;
 }
+button{
+	outline: 0;
+}

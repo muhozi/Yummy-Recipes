@@ -32,6 +32,16 @@
               </div>
             </div>
             <div class="col-md-8">
+                  {% with success_message = get_flashed_messages(category_filter=["successMessage"]) %}
+                      {% for success_msg in success_message %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          <b>{{ session["name"] }}</b>&nbsp;{{success_msg }}
+                        </div>
+                      {% endfor %}
+                    {% endwith %}
               <div class="card form-card animated fadeIn all-recipes">
                 <div class="card-header recipes-card-header">
                   <div class="row">
