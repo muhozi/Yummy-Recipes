@@ -8,5 +8,7 @@ csrf.init_app(app)
 # Load the views
 from app import views
 
+def create_app():
+	return app
 # Load the config file
 app.config.from_object('config')

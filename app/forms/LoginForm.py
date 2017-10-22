@@ -3,8 +3,9 @@ from wtforms import BooleanField, StringField, PasswordField, TextAreaField, val
 class Login(FlaskForm):
 	"""Process Registration Form"""
 	email = StringField('email',[
-		validators.DataRequired(),
-		validators.length(min=6,max=50)])
+		validators.DataRequired(message=u'Please enter your email'),
+		validators.Email()
+		])
 	password = PasswordField('password',[
-		validators.DataRequired(),
+		validators.DataRequired(message=u'Please enter your password')
 	])
