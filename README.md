@@ -34,9 +34,14 @@ Activate working environment (on windows)
 ```sh
 cd env/Scripts && activate && cd ../..
 ```
+Activate working environment (Unix-like)
 
 ```sh
-pip install
+source env/bin/activate
+```
+
+```sh
+pip install -r requirements.txt
 ```
 
 Then Finally run the project
