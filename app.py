@@ -1,5 +1,4 @@
 from app import app
-from app.models.store import Store;
-# Initialize Store
+# Load the config file
 if __name__ == '__main__':
     app.run()

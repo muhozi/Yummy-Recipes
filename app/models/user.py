@@ -33,7 +33,6 @@ class User(object):
 		return False
 	def exist(self,email,password):
 		users = Store().get_users()
-		print(users)
 		for user in users:
 			# print(check_password_hash(user['password'], password))
 			if (user['email'] == email and check_password_hash(user['password'], password)):

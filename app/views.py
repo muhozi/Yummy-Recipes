@@ -33,7 +33,6 @@ def guest(n):
 @guest
 def join():
 	error=None
-	print(store.get_users())
 	form = RegisterForm.Register()
 	if (request.method == 'GET'):
 		return render_template("index.html",form = form)
@@ -51,7 +50,7 @@ def join():
 				session['id'] = user.user_id
 				session['name'] = user.name
 				session['email'] = user.email
-				flash('welcome to Yummy recipes community',category='successMessage')
+				flash('Thanks for joining us',category='successMessage')
 				return redirect(url_for('recipes'))
 			flash('Email already exists',category='errorMessage')
 			flash(request.form,category='input')
@@ -102,17 +101,11 @@ def logout():
 @auth
 def addrecipe():
 	users = store.get_users();
-	print(users);
 	form = RecipeForm.AddForm()
 	return render_template("addrecipe.html",form=form)
 
-def redirect_back(default='index'):
-	return request.args.get('next') or \
-		request.referrer or \
-		url_for(default)
-
 """ Redirect back """
-def redirect_back(default='index'):
+def redirect_back(default='join'):
 	return request.args.get('next') or \
 		request.referrer or \
 		url_for(default)
