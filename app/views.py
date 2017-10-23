@@ -7,7 +7,10 @@ from app.forms import RegisterForm,LoginForm,RecipeForm,CategoryForm
 from app.models.store import Store;
 from app.models.user import User;
 store = Store();
-""" Only logged in user Middleware function"""
+
+""" 
+	Only logged in user Middleware function
+"""
 def auth(n):
 	@wraps(n)
 	def wrap(*args, **kwargs):
@@ -17,7 +20,9 @@ def auth(n):
 			return redirect(url_for('login'))
 	return wrap
 
-""" Only Guest user Middleware function"""
+""" 
+	Only Guest user Middleware function
+"""
 def guest(n):
 	@wraps(n)
 	def wrap(*args, **kwargs):
@@ -28,7 +33,9 @@ def guest(n):
 
 	return wrap
 
-"""Registration route | Index route"""
+"""
+	Registration route | Index route
+"""
 @app.route('/',methods=['POST','GET'])
 @guest
 def join():
@@ -61,7 +68,9 @@ def join():
 		return redirect(redirect_back())
 	return abort(404)
 
-"""Login route"""
+"""
+	Login route
+"""
 @app.route('/login',methods = ['POST','GET'])
 @guest
 def login():
@@ -89,14 +98,18 @@ def login():
 		return redirect(redirect_back())
 	return abort(404)
 
-"""Logout route"""
+"""
+	Logout route
+"""
 @app.route('/logout')
 @auth
 def logout():
 	session.clear()
 	return redirect(url_for('login'))
 
-"""Add Recipe route"""
+"""
+	Add Recipe route
+"""
 @app.route('/addrecipe')
 @auth
 def addrecipe():
@@ -104,21 +117,21 @@ def addrecipe():
 	form = RecipeForm.AddForm()
 	return render_template("addrecipe.html",form=form)
 
-""" Redirect back """
+""" 
+	Redirect back
+"""
 def redirect_back(default='join'):
 	return request.args.get('next') or \
 		request.referrer or \
 		url_for(default)
 
-"""Recipes route"""
+"""
+	Recipes route
+"""
 @app.route('/recipes')
 @auth
 def recipes():
-	#Edit Recipe form details
-	form = RecipeForm.EditForm()
-	#Add form details
-	#addCategory = CategoryForm.AddForm() # I ingnore it I will use JS
-	#Add form details
-	#category = CategoryForm.AddForm() # I ingnore it I will use JS
-	return render_template("recipes.html",form=form)
+	form = RecipeForm.EditForm() #Edit Recipe form
+	addCategory = CategoryForm.AddForm() #Addcategory  form
+	return render_template("recipes.html",form=form,categoryForm = addCategory)
 

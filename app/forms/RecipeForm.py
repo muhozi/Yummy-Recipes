@@ -7,7 +7,7 @@ class AddForm(FlaskForm):
 		validators.DataRequired(),
 		validators.length(min=3,max=50)
 	])
-	category = SelectField(u'Programming Language', choices=[('burgers','Burgers'),('Chicken','Chicken'),('Pizza','Pizza')])
+	category = SelectField(u'Recipes', choices=[('burgers','Burgers'),('Chicken','Chicken'),('Pizza','Pizza')])
 	description = TextAreaField('description',[
 		validators.DataRequired(),
 		validators.length(min=6,max=500)
@@ -18,7 +18,7 @@ class EditForm(FlaskForm):
 		validators.DataRequired(),
 		validators.length(min=3,max=50)
 	])
-	category = SelectField(u'Programming Language', choices=[('burgers','Burgers'),('Chicken','Chicken'),('Pizza','Pizza')])
+	category = SelectField(u'Recipes', choices=[('burgers','Burgers'),('Chicken','Chicken'),('Pizza','Pizza')])
 	description = TextAreaField('description',[
 		validators.DataRequired(),
 		validators.length(min=6,max=500)

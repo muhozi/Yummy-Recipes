@@ -317,7 +317,7 @@
               <span class="input-group-btn">
                 <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-nutrition"></i></button>
               </span>
-              <input type="text" name="category" class="form-control gr-input" placeholder="Recipe name ..."/>
+              {{ form.name(class='form-control gr-input',placeholder = 'Recipe name ...')}}
             </div>
           </div>
           <div class="form-group">
@@ -325,13 +325,7 @@
               <span class="input-group-btn">
                 <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
               </span>
-              <select type="text" name="category" class="form-control gr-input">
-                <option>Ice cream</option>
-                <option>Drinks</option>
-                <option>Dessert</option>
-                <option selected>Chips</option>
-                <option>Burgers</option>
-              </select>
+              {{ form.category(class='form-control gr-input',placeholder = 'Recipe category name ...')}}
             </div>
           </div>
           <div class="form-group">
@@ -339,7 +333,7 @@
               <span class="input-group-btn gr-group">
                 <button class="btn btn-label-texarea" type="button" tabindex="-1"><i class="ion-android-restaurant"></i></button>
               </span>
-              <textarea name="description" spellcheck="false" class="form-control gr-textarea" placeholder="Recipe description ..." aria-label="Recipe description">Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</textarea>
+              {{ form.category(class='form-control gr-textarea',placeholder = 'Recipe description ...',value='Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.')}}
             </div>
           </div>
         </form>
@@ -392,7 +386,7 @@
               <span class="input-group-btn">
                 <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
               </span>
-              <input type="text" name="name" class="form-control gr-input" placeholder="Recipe category name ..." aria-label="Recipe name">
+              {{ categoryForm.name(class='form-control gr-input',placeholder = 'Recipe category name ...')}}
             </div>
           </div>
         </form>

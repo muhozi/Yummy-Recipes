@@ -6,12 +6,14 @@ from app import app
 from app.models.user import User
 from werkzeug.security import generate_password_hash
 class FlaskClientTestCase(unittest.TestCase):
+
+	""" 
+		Set up tet data
+	"""	
 	def setUp(self):
 		app.config['TESTING'] = True
 		app.config['WTF_CSRF_ENABLED'] = False
 		self.client = app.test_client(use_cookies=True)
-		# self.app_context = app.app_context()
-		# self.app_context.push()
 		self.single_user = {
 			'id': uuid.uuid4().hex ,
 			'name': 'Testing It',
@@ -33,6 +35,10 @@ class FlaskClientTestCase(unittest.TestCase):
 			created=datetime.now(),
 			user_id=self.exist_user['id'],
 		)
+
+	""" 
+		Test Registration
+	"""
 	def test_register(self):
 		response = self.client.post('/', data=dict(
 			name=self.single_user['name'],
@@ -41,23 +47,34 @@ class FlaskClientTestCase(unittest.TestCase):
 			repassword=self.single_user['repassword']),
 			follow_redirects=True
 		)
-		# self.assertTrue(saved_user)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'Thanks for joining us', response.data)
+
+	""" 
+		Test Logout
+	"""
 	def test_logout(self):
 		response = self.client.get('/logout')
 		self.assertEqual(response.status_code, 302)
 		self.assertEqual(urlparse(response.location).path, '/login')
+
+	""" 
+		Test Login
+	"""
 	def test_login(self):
 		response = self.client.post('/login', data=dict(
 			email=self.exist_user['email'],
 			password=self.exist_user['password']),
 			follow_redirects=True
 		)
-		# self.assertTrue(saved_user)
 		self.assertEqual(response.status_code, 200)
 		self.assertIn(b'welcome back', response.data)
+
+	""" 
+		Destroy tests data
+	"""
 	def tearDown(self):
 		self.single_user = None
+		self.exist_user = None
 if __name__ == '__main__':
 	unittest.main()
