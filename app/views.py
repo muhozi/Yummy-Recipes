@@ -6,6 +6,7 @@ from app import app
 from app.forms import RegisterForm,LoginForm,RecipeForm,CategoryForm
 from app.models.store import Store;
 from app.models.user import User;
+from app.models.category import Category;
 store = Store();
 
 """ 
@@ -54,10 +55,10 @@ def join():
 			)
 			if ( user_saved ):
 				session['logged_in'] = True
-				session['id'] = user.user_id
+				session['user_id'] = user.user_id
 				session['name'] = user.name
 				session['email'] = user.email
-				flash('Thanks for joining us',category='successMessage')
+				flash(session["name"]+ ' Thanks for joining us',category='successMessage')
 				return redirect(url_for('recipes'))
 			flash('Email already exists',category='errorMessage')
 			flash(request.form,category='input')
@@ -84,10 +85,10 @@ def login():
 			user_exist = user.exist(request.form['email'],request.form['password'])
 			if ( user_exist ):
 				session['logged_in'] = True
-				session['id'] = user.user_id
+				session['user_id'] = user.user_id
 				session['name'] = user.name
 				session['email'] = user.email
-				flash('welcome back to Yummy recipes community',category='successMessage')
+				flash(session["name"]+ ' welcome back to Yummy recipes community',category='successMessage')
 				return redirect(url_for('recipes'))
 			flash('Invalid email or password',category='errorMessage')
 			flash(request.form,category='input')
@@ -117,14 +118,6 @@ def addrecipe():
 	form = RecipeForm.AddForm()
 	return render_template("addrecipe.html",form=form)
 
-""" 
-	Redirect back
-"""
-def redirect_back(default='join'):
-	return request.args.get('next') or \
-		request.referrer or \
-		url_for(default)
-
 """
 	Recipes route
 """
@@ -133,5 +126,57 @@ def redirect_back(default='join'):
 def recipes():
 	form = RecipeForm.EditForm() #Edit Recipe form
 	addCategory = CategoryForm.AddForm() #Addcategory  form
-	return render_template("recipes.html",form=form,categoryForm = addCategory)
+	categories = Store().get_user_categories(session['user_id'])
+	return render_template("recipes.html",form=form,categoryForm = addCategory,categories=categories)
+
+
+"""
+	Recipes route
+"""
+@app.route('/addcategory',methods=['POST'])
+@auth
+def add_category():
+	form = CategoryForm.AddForm()
+	if form.validate_on_submit():
+		category = Category()
+		save_category = category.save(request.form['name'],datetime.now())
+		if ( save_category ):
+			flash(' Category \'{0}\' has been successfully saved'.format(category.name),category='successMessage')
+			return redirect(redirect_back())
+		flash('Unable to save category',category='errorMessage')
+		flash(request.form,category='input')
+		return redirect(redirect_back())
+	error = form.errors
+	flash(error,category='error')
+	flash(request.form,category='input')
+	return redirect(redirect_back())
+
+""" 
+	Redirect back
+"""
+@app.route('/editcategory/<id>',methods=['POST'])
+@auth
+def edit_category():
+	form = CategoryForm.AddForm()
+	if form.validate_on_submit():
+		category = Category()
+		save_category = category.save(request.form['name'],datetime.now())
+		if ( save_category ):
+			flash(' Category \'{0}\' has been successfully saved'.format(category.name),category='successMessage')
+			return redirect(redirect_back())
+		flash('Unable to save category',category='errorMessage')
+		flash(request.form,category='input')
+		return redirect(redirect_back())
+	error = form.errors
+	flash(error,category='error')
+	flash(request.form,category='input')
+	return redirect(redirect_back())
+
+""" 
+	Redirect back
+"""
+def redirect_back(default='join'):
+	return request.args.get('next') or \
+		request.referrer or \
+		url_for(default)
 

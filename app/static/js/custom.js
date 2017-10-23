@@ -16,5 +16,7 @@ $('.recipes-cat .list-group-item').hover(function(){
 function(){
 	$(this).children('.hover-buttons').hide();	
 });
-
+  $('#editCategoryBtn').click(function(){
+    alert($(this).html());
+  });
 
