@@ -7,15 +7,16 @@ from app.forms import RegisterForm,LoginForm,RecipeForm,CategoryForm
 from app.models.store import Store;
 from app.models.user import User;
 from app.models.category import Category;
+# Remove this before pushing
+import uuid
 store = Store();
-
 """ 
 	Only logged in user Middleware function
 """
 def auth(n):
 	@wraps(n)
 	def wrap(*args, **kwargs):
-		if 'logged_in' in session and session['logged_in'] == True:
+		if 'logged_in' in session and session['logged_in'] == True and 'user_id' in session and session['logged_in']:
 			return n(*args, **kwargs)
 		else:
 			return redirect(url_for('login'))
@@ -139,7 +140,13 @@ def add_category():
 	form = CategoryForm.AddForm()
 	if form.validate_on_submit():
 		category = Category()
-		save_category = category.save(request.form['name'],datetime.now())
+		if category.category_exist(request.form['name']):
+			flash('This category already exists',category='errorMessage')
+			return redirect(redirect_back())
+		save_category = category.save(
+			owner_id = session['user_id'],
+			name = request.form['name'],
+			created = datetime.now())
 		if ( save_category ):
 			flash(' Category \'{0}\' has been successfully saved'.format(category.name),category='successMessage')
 			return redirect(redirect_back())
@@ -152,23 +159,48 @@ def add_category():
 	return redirect(redirect_back())
 
 """ 
-	Redirect back
+	Edit Category route
 """
 @app.route('/editcategory/<id>',methods=['POST'])
 @auth
-def edit_category():
+def edit_category(id):
+
 	form = CategoryForm.AddForm()
 	if form.validate_on_submit():
 		category = Category()
-		save_category = category.save(request.form['name'],datetime.now())
+		if (category.is_exist(id) != True):
+			flash('Sorry,That category doesn\'t exist',category='errorMessage')
+			return redirect(redirect_back())
+		if category.exist_twice(request.form['name']):
+			flash('Sorry,There is another category with the same name',category='errorMessage')
+			return redirect(redirect_back())
+		save_category = category.update(request.form['name'],id)
 		if ( save_category ):
-			flash(' Category \'{0}\' has been successfully saved'.format(category.name),category='successMessage')
+			flash(' Category \'{0}\' has been successfully updated'.format(category.name),category='successMessage')
 			return redirect(redirect_back())
 		flash('Unable to save category',category='errorMessage')
 		flash(request.form,category='input')
 		return redirect(redirect_back())
 	error = form.errors
 	flash(error,category='error')
+	flash(request.form,category='input')
+	return redirect(redirect_back())
+
+""" 
+	Delete Category route
+"""
+@app.route('/deletecategory/<id>',methods=['GET'])
+@auth
+def delete_category(id):
+	category = Category()
+	if (category.is_exist(id) != True):
+		flash('Sorry,That category doesn\'t exist',category='errorMessage')
+		return redirect(redirect_back())
+	delete_category = category.delete(id)
+	if ( delete_category ):
+		flash(' Category has been successfully deleted',category='successMessage')
+		return redirect(redirect_back())
+	flash('Unable to save category',category='errorMessage')
 	flash(request.form,category='input')
 	return redirect(redirect_back())
 

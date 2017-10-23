@@ -20,7 +20,7 @@ class User(object):
 			'email': self.email,
 			'password': self.password,
 			'created_at': self.created,
-			'categories': [],
+			'categories': list(),
 		}
 		if (self.email_exist(self.email)):
 			return False

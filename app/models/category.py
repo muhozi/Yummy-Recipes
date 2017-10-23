@@ -7,36 +7,69 @@ class Category(object):
 	name = None
 	category_id = None
 	created = None
-	def save(self, name, created, category_id=None):
+	owner_id = None
+	def save(self, name,owner_id,created,category_id=None):
 		self.name = name
 		self.category_id = uuid.uuid4().hex
 		self.created = created
+		self.owner_id = owner_id
 		data = {
 			'id': self.category_id,
+			'owner_id': owner_id,
 			'name': self.name,
 			'created_at': self.created,
-			'recipes': [],
 		}
 		if (self.category_exist(self.name)):
 			return False
-		Store().add_category(session['user_id'],data)
+		Store().add_category(data)
 		return True
+
+	def update(self, name,category_id):
+		user_id = session['user_id']
+		categories = Store().get_user_categories(user_id)
+		for category in categories:
+			if self.is_exist(category_id):
+				self.category_id = category_id
+				self.name = name
+				self.owner_id = category['owner_id']
+				self.created = category['created_at']
+				data = {
+					'id': self.category_id,
+					'owner_id': self.owner_id,
+					'name': name,
+					'created_at': self.created,
+				}
+				if (Store().update_category(data)):
+					return True
+				else:
+					return False
+			return True
+
+	def delete(self, category_id):
+		user_id = session['user_id']
+		if (Store().delete_category(category_id)):
+			return True
+		else:
+			return False
+
 	def category_exist(self,name):
 		user_id = session['user_id']
 		categories = Store().get_user_categories(user_id)
-		for user in categories:
-			if (user['name'] == name):
+		for category in categories:
+			if (category['name'] == name):
 				return True
 		return False
-	# def exist(self,email,password):
-	# 	users = Store().get_users()
-	# 	for user in users:
-	# 		# print(check_password_hash(user['password'], password))
-	# 		if (user['email'] == email and check_password_hash(user['password'], password)):
-	# 			self.user_id = user['id']
-	# 			self.name = user['name']
-	# 			self.email = user['email']
-	# 			self.password = user['password']
-	# 			return True
-	# 	return False
+	def exist_twice(self,name):
+		user_id = session['user_id']
+		categories = Store().get_user_categories(user_id)
+		if (len(categories) > 1):
+			return True
+		return False
+	def is_exist(self,id):
+		user_id = session['user_id']
+		categories = Store().get_user_categories(user_id)
+		for category in categories:
+			if (category['id'] == id):
+				return True
+		return False
 		

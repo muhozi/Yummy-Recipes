@@ -7,7 +7,7 @@ class Store():
 		super(Store, self).__init__()
 
 	"""
-		Store user
+		Add user
 	"""
 	def add_user(self,data):
 		self.users.append(data)
@@ -24,19 +24,41 @@ class Store():
 		return self.users
 
 	"""
-		Store new category
+		Add new category
 	"""
-	def add_category(self,user_id,data):
-		categories = self.get_user_categories(user_id)
-		categories.append(data)
+	def add_category(self,data):
+		self.categories.append(data)
+	"""
+		Edit Category
+	"""
+	def update_category(self,data):
+		for category in self.categories:
+			if category['id'] == data['id']:
+				category['name'] = data['name']
+				return True
+		return False
+
+	"""
+		Edit Category
+	"""
+	def delete_category(self,id):
+		incr = 0
+		for category in self.categories:
+			if category['id'] == id:
+				del self.categories[incr]
+				incr+1
+				return True
+		return False
 
 	"""
 		Get user categories
 	"""
 	def get_user_categories(self,user_id):
-		for single_user in self.users:
-			if single_user['id'] == user_id:
-				return single_user['categories']
+		user_categories = []
+		for category in self.categories:
+			if category['owner_id'] == user_id:
+				user_categories.append(category)
+		return user_categories
 
 	"""
 		Empty Store

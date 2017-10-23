@@ -16,7 +16,14 @@ $('.recipes-cat .list-group-item').hover(function(){
 function(){
 	$(this).children('.hover-buttons').hide();	
 });
-  $('#editCategoryBtn').click(function(){
-    alert($(this).html());
-  });
+$('.editCategoryBtn').click(function(){
+	$('#editCategoryModal').modal('show');
+	$('#editCategoryModal #editRecipeCategoryTitle').text('Edit '+$(this).data('name'))
+	$('#editCategoryModal #editRecipeCategoryInput').val($(this).data('name'));
+	$('#editCategoryModal #editRecipeCategoryForm').attr('action',$(this).data('action'));
+});
+$('.deleteCategoryBtn').click(function(){
+	$('#deleteCategoryModal').modal('show');
+	$('#deleteCategoryLink').attr('href',$(this).data('action'));
+});
 
