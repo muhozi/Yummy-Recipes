@@ -14,6 +14,30 @@
                   
                 </div>
                 <div class="card-body">
+                  {% with success_message = get_flashed_messages(category_filter=["successMessage"]) %}
+                      {% for success_msg in success_message %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          {{success_msg }}
+                        </div>
+                      {% endfor %}
+                    {% endwith %}
+                    {% with error_message = get_flashed_messages(category_filter=["errorMessage"]) %}
+                      {% for error_msg in error_message %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          {{error_msg }}
+                        </div>
+                      {% endfor %}
+                    {% endwith %}
+                    {% with errors = get_flashed_messages(category_filter=["error"]) %}
+                        {% if errors|length > 0 %}
+                          {% set errors = errors[0] %}
+                        {% endif %}
                   <form method="POST" action="">
                     {{ form.csrf_token }}
                     <div class="form-group">
@@ -23,6 +47,13 @@
                         </span>
                         {{form.name(placeholder="Recipe name ...",class="form-control gr-input")}}
                       </div>
+                      {% if errors.name %}
+                        <span class="text-danger">
+                          {% for error in errors.name %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -31,6 +62,13 @@
                         </span>
                         {{ form.category(class="form-control gr-input")}}
                       </div>
+                      {% if errors.category %}
+                        <span class="text-danger">
+                          {% for error in errors.category %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
                     </div>
                     <div class="form-group">
                       <div class="input-group">
@@ -39,11 +77,19 @@
                         </span>
                         {{ form.description(class="form-control gr-textarea",placeholder="Recipe description ...")}}
                       </div>
+                      {% if errors.description %}
+                        <span class="text-danger">
+                          {% for error in errors.description %}
+                              {{ error }}
+                          {% endfor %}
+                        </span>
+                      {% endif %}
                     </div>
                     <div class="form-group text-center">
                       <br><br>
                         <button type="submit" name="save" class="btn btn-success">Save recipe</button>
                     </div>
+                    {% endwith %}
                   </form>
                 </div>
               </div>
@@ -54,35 +100,35 @@
                   <h6 class="text-success">Recently added recipes</h6>
                 </div>
                 <div class="card-body recent-recipes">
+                      {% for recent_recipe in recent_recipes %}
                       <div class="card animated fadeIn">
                         <div class="card-header">
-                          Recently added recipes
+                          {{recent_recipe['name']}}
                         </div>
                         <div class="card-body">
                           <p>
-                            Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+                            {{recent_recipe['description']}}
                           </p>
                         </div>
                       </div>
+                      {% else %}
+                      <div class="col-md-12 alert alert-light">
+                        <p class="text-muted">
+                          No Recent added recipes
+                        </p>
+                      </div>
+                      {% endfor %}
                       <div class="divider"> </div>
-                      <div class="card animated fadeIn">
-                        <div class="card-header">
-                          Recently added recipes
-                        </div>
-                        <div class="card-body">
-                          <p>
-                            Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-                          </p>
-                        </div>
-                      </div>
                 </div>
+                {% if recipes | length > 0 %}
                 <div class="card-body text-center">
                   <a href="{{ url_for('recipes') }}">
                     <span class="btn btn-sm btn-success">View all recipes
-                    <span class="badge bg-light badge-pill text-success">6</span>
+                    <span class="badge bg-light badge-pill text-success">{{recipes | length}}</span>
                     </span>
                   </a>
                 </div>
+                {% endif %}
               </div>
             </div>
         </section>

@@ -26,4 +26,14 @@ $('.deleteCategoryBtn').click(function(){
 	$('#deleteCategoryModal').modal('show');
 	$('#deleteCategoryLink').attr('href',$(this).data('action'));
 });
+$('.editRecipeBtn').click(function(){
+	$('#editRecipeModal').modal('show');
+	$('#editRecipeModal #editRecipeForm #recipeName').val($(this).data('name'))
+	$('#editRecipeModal #editRecipeForm #recipeDescription').val($(this).data('description'));
+	$('#editRecipeModal #editRecipeForm').attr('action',$(this).data('action'));
+});
+$('.deleteRecipeBtn').click(function(){
+	$('#deleteRecipeModal').modal('show');
+	$('#deleteRecipeLink').attr('href',$(this).data('action'));
+});
 

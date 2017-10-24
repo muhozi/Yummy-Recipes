@@ -37,17 +37,44 @@ class Store():
 				category['name'] = data['name']
 				return True
 		return False
+	"""
+		Update Recipe
+	"""
+	def update_recipe(self,data):
+		for recipe in self.recipes:
+			if recipe['id'] == data['id']:
+				recipe['name'] = data['name']
+				recipe['category_id'] = data['category_id']
+				recipe['description'] = data['description']
+				return True
+		return False
 
 	"""
-		Edit Category
+		Delete Category and Its Recipes
 	"""
 	def delete_category(self,id):
 		incr = 0
+		recipe_incr = 0
 		for category in self.categories:
 			if category['id'] == id:
+				for recipe in self.recipes:
+					if (recipe['category_id'] == id):
+						del self.recipes[recipe_incr]
+					recipe_incr+1
 				del self.categories[incr]
-				incr+1
 				return True
+			incr+1
+		return False
+	"""
+		Delete Recipe
+	"""
+	def delete_recipe(self,id):
+		incr = 0
+		for recipe in self.recipes:
+			if recipe['id'] == id:
+				del self.recipes[incr]
+				return True
+			incr+1
 		return False
 
 	"""
@@ -59,7 +86,16 @@ class Store():
 			if category['owner_id'] == user_id:
 				user_categories.append(category)
 		return user_categories
-
+	"""
+		Get user categories
+	"""
+	def get_user_recipes(self,user_id):
+		user_recipes = []
+		for recipe in self.recipes:
+			if recipe['owner_id'] == user_id:
+				user_recipes.append(recipe)
+		return user_recipes
+	
 	"""
 		Empty Store
 	"""

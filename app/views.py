@@ -4,12 +4,27 @@ from werkzeug.security import generate_password_hash
 from datetime import datetime
 from app import app
 from app.forms import RegisterForm,LoginForm,RecipeForm,CategoryForm
-from app.models.store import Store;
-from app.models.user import User;
-from app.models.category import Category;
+from app.models.store import Store
+from app.models.user import User
+from app.models.category import Category
+from app.models.recipe import Recipe
 # Remove this before pushing
 import uuid
-store = Store();
+store = Store()
+exist_user = {
+	'id': uuid.uuid4().hex ,
+	'name': 'Muhozi Emery',
+	'email': 'muhozie@gmail.com',
+	'password': '123456',
+	'repassword': '123456'
+}
+user = User().save(
+	name=exist_user['name'],
+	email=exist_user['email'],
+	password=generate_password_hash(exist_user['password']),
+	created=datetime.now(),
+	user_id=exist_user['id'],
+)
 """ 
 	Only logged in user Middleware function
 """
@@ -112,27 +127,59 @@ def logout():
 """
 	Add Recipe route
 """
-@app.route('/addrecipe')
+@app.route('/addrecipe',methods=['GET','POST'])
 @auth
 def addrecipe():
-	users = store.get_users();
-	form = RecipeForm.AddForm()
-	return render_template("addrecipe.html",form=form)
-
+	if (Category().exist_categories() != True):
+		flash('Please add some recipes categories before adding recipe',category='errorMessage')
+		return redirect(redirect_back())
+	categories = Category().user_categories()
+	categories_list = []
+	for category in categories:
+		cat = (category['id'],category['name'])
+		categories_list.append(cat)
+	form = RecipeForm.addRecipe(categories_list)
+	recipes = Recipe().user_recipes()
+	if (request.method == 'GET'):
+		return render_template("addrecipe.html",form=form,recipes=recipes,recent_recipes = recipes[:3])
+	elif (request.method == 'POST'):
+		if form.validate_on_submit():
+			recipe = Recipe()
+			if recipe.recipe_exist(request.form['name']):
+				flash('Sorry,There is another recipe with the same name',category='errorMessage')
+				return redirect(redirect_back())
+			recipe = Recipe()
+			save_recipe = recipe.save(request.form['name'],request.form['description'],request.form['category'])
+			if (save_recipe):
+				flash(' Recipe \'{0}\' has been successfully saved'.format(recipe.name),category='successMessage')
+				return redirect(redirect_back())
+			flash('unable to save recipe Try again',category='errorMessage')
+			flash(request.form,category='input')
+			return redirect(redirect_back())
+		error = form.errors
+		flash(error,category='error')
+		flash(request.form,category='input')
+		return redirect(redirect_back())
 """
 	Recipes route
 """
 @app.route('/recipes')
 @auth
 def recipes():
-	form = RecipeForm.EditForm() #Edit Recipe form
+	categories = Category().user_categories()
+	categories_list = []
+	for category in categories:
+		cat = (category['id'],category['name'])
+		categories_list.append(cat)
+	form = RecipeForm.editRecipe(categories_list) #Edit Recipe form
 	addCategory = CategoryForm.AddForm() #Addcategory  form
 	categories = Store().get_user_categories(session['user_id'])
-	return render_template("recipes.html",form=form,categoryForm = addCategory,categories=categories)
+	recipes = Recipe().user_recipes()
+	return render_template("recipes.html",form=form,categoryForm = addCategory,categories=categories,recipes = recipes)
 
 
 """
-	Recipes route
+	Add category route
 """
 @app.route('/addcategory',methods=['POST'])
 @auth
@@ -156,7 +203,8 @@ def add_category():
 	error = form.errors
 	flash(error,category='error')
 	flash(request.form,category='input')
-	return redirect(redirect_back())
+	return redirect_back()
+
 
 """ 
 	Edit Category route
@@ -184,6 +232,55 @@ def edit_category(id):
 	error = form.errors
 	flash(error,category='error')
 	flash(request.form,category='input')
+	return redirect(redirect_back())
+
+""" 
+	Edit Recipe route
+"""
+@app.route('/editrecipe/<id>',methods=['POST'])
+@auth
+def edit_recipe(id):
+	categories = Category().user_categories()
+	categories_list = []
+	for category in categories:
+		cat = (category['id'],category['name'])
+		categories_list.append(cat)
+	form = RecipeForm.editRecipe(categories_list)
+	if form.validate_on_submit():
+		recipe = Recipe()
+		if (recipe.is_exist(id) != True):
+			flash('Sorry,That recipe doesn\'t exist',category='errorMessage')
+			return redirect(redirect_back())
+		if recipe.exist_twice(request.form['name']):
+			flash('Sorry,There is another recipe with the same name',category='errorMessage')
+			return redirect(redirect_back())
+		save_category = recipe.update(request.form['name'],request.form['description'],request.form['category'],id)
+		if ( save_category ):
+			flash(' Category \'{0}\' has been successfully updated'.format(recipe.name),category='successMessage')
+			return redirect(redirect_back())
+		flash('Unable to save recipe',category='errorMessage')
+		flash(request.form,category='input')
+		return redirect(redirect_back())
+	error = form.errors
+	flash(error,category='error')
+	flash(request.form,category='input')
+	return redirect(redirect_back())
+
+""" 
+	Delete Recipe
+"""
+@app.route('/deleterecipe/<id>',methods=['GET'])
+@auth
+def delete_recipe(id):
+	recipe = Recipe()
+	if (recipe.is_exist(id) != True):
+		flash('Sorry,That recipe doesn\'t exist',category='errorMessage')
+		return redirect(redirect_back())
+	delete_category = recipe.delete(id)
+	if ( delete_category ):
+		flash(' Recipe has been successfully deleted',category='successMessage')
+		return redirect(redirect_back())
+	flash('Unable to save recipe',category='errorMessage')
 	return redirect(redirect_back())
 
 """ 

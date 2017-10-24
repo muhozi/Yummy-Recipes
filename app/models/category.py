@@ -3,7 +3,7 @@ from app.models.store import Store
 from werkzeug.security import check_password_hash
 import uuid
 class Category(object):
-	"""User Model"""
+	"""Category Model"""
 	name = None
 	category_id = None
 	created = None
@@ -23,6 +23,10 @@ class Category(object):
 			return False
 		Store().add_category(data)
 		return True
+	def user_categories(self):
+		user_id = session['user_id']
+		categories = Store().get_user_categories(user_id)
+		return categories
 
 	def update(self, name,category_id):
 		user_id = session['user_id']
@@ -46,7 +50,6 @@ class Category(object):
 			return True
 
 	def delete(self, category_id):
-		user_id = session['user_id']
 		if (Store().delete_category(category_id)):
 			return True
 		else:
@@ -65,6 +68,12 @@ class Category(object):
 		if (len(categories) > 1):
 			return True
 		return False
+	def exist_categories(self):
+		user_id = session['user_id']
+		categories = Store().get_user_categories(user_id)
+		if (len(categories) > 0):
+			return True
+		return False
 	def is_exist(self,id):
 		user_id = session['user_id']
 		categories = Store().get_user_categories(user_id)
@@ -72,4 +81,10 @@ class Category(object):
 			if (category['id'] == id):
 				return True
 		return False
+	def category_name(self,id):
+		user_id = session['user_id']
+		categories = Store().get_user_categories(user_id)
+		for category in categories:
+			if (category['id'] == id):
+				return category['name']
 		
