@@ -43,7 +43,7 @@
                 <a class="nav-link text-success" href="{{ url_for('recipes') }}"><i class="ion-ios-list-outline"></i>&nbsp;&nbsp;My recipes</a>
               </li>
               <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle text-success" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="ion-ios-person"></i>&nbsp;&nbsp;Account</a>
+                <a class="nav-link dropdown-toggle text-success" data-toggle="dropdown" href="#" role="button" aria-expanded="false"><i class="ion-ios-person"></i>&nbsp;&nbsp;{{ session['name'] }}</a>
                 <div class="dropdown-menu animated flipInX drop bg-light">
                   <!--<a class="dropdown-item text-success" href="settings.html"><i class="ion-ios-gear-outline"></i>&nbsp;&nbsp;Settings</a>-->
                   <a class="dropdown-item text-success" href="{{url_for('logout')}}"><i class="ion-log-out"></i>&nbsp;&nbsp;Logout</a>
@@ -70,5 +70,6 @@
     <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/custom.js') }}"></script>
+    {% block customJs %}{% endblock %}
   </body>
 </html>

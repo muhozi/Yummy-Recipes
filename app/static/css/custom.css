@@ -124,7 +124,6 @@ a.navbar-brand.yummy:focus, a.navbar-brand.yummy:hover{
 	min-height: 2rem,
 }
 .recent-recipes{
-    height: 23rem;
     scroll-behavior: auto;
 	scroll-behavior: smooth;
 }

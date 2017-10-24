@@ -15,18 +15,22 @@
                 <div class="card-body">
                   <button class="btn btn-block btn-outline-success"  data-toggle="modal" data-target="#newCategoryModal" ><i class="ion-ios-plus-empty"></i> &nbsp;Add new recipe category</button>
                   <ul class="list-group recipes-cat">
-                    <li class="list-group-item">Burgers
-                          <div class="hover-buttons">
-                            <small>
-                              <a href="#" data-toggle="modal" data-target="#newCategoryModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                              <a href="#" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
-                            </small>
-                          </div>
-                    </li>
-                    <li class="list-group-item">Chips</li>
-                    <li class="list-group-item">Appetisers</li>
-                    <li class="list-group-item">Tea</li>
-                    <li class="list-group-item">Pizza</li>
+                      {% for category in categories %}
+                      <li class="list-group-item">{{category['name']}}
+                            <div class="hover-buttons">
+                              <small>
+                                <a href="#" class="btn btn-outline-success btn-sm editCategoryBtn" data-action={{url_for('edit_category',id = category.id)}} data-name={{category['name']}}><i class="ion-edit"></i>&nbsp;Edit</a>
+                                <a href="#" class="btn btn-outline-danger btn-sm deleteCategoryBtn" data-action={{url_for('delete_category',id = category.id )}} data-name={{category['name']}}><i class="ion-android-close"></i>&nbsp;Delete</a>
+                              </small>
+                            </div>
+                      </li>
+                      {% else %}
+                      <span class="alert alert-light">
+                        <p class="text-muted">
+                          You have not yet added any recipes category!
+                        </p>
+                      </span>
+                      {% endfor %}
                   </ul>
                 </div>
               </div>
@@ -38,7 +42,17 @@
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
-                          <b>{{ session["name"] }}</b>&nbsp;{{success_msg }}
+                          {{success_msg }}
+                        </div>
+                      {% endfor %}
+                    {% endwith %}
+                    {% with error_message = get_flashed_messages(category_filter=["errorMessage"]) %}
+                      {% for error_msg in error_message %}
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                          {{error_msg }}
                         </div>
                       {% endfor %}
                     {% endwith %}
@@ -65,31 +79,32 @@
                     </form>
                   </div>
                 </div>
-                <div class="card-body all-recipes-body">
+                <div class="card-body {{ 'all-recipes-body' if recipes else '' }}">
         <!--Recipe card lists-->
+                  {% for recipe in recipes %}
                   <div class="row card-comp">
                     <div class="col-md-10 no-padding">
                       <div class="card animated fadeIn single-card">
                         <div class="card-header">
-                          Chips with salad
+                          {{recipe['name']}}
                         </div>
                         <div class="card-body">
                           <a href="#">
                             <div class="rec-description">
                               <p>
-                                Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
+                                {{recipe['description']}}
                               </p>
                             </div>
                           </a>
                           <div class="row">
                             <div class="col-sm-8">
                               <small class="text-muted">Two days ago &nbsp;<i class="ion-egg"></i></small>
-                              <a href="#" class="badge badge-success badge-pill">Chips</a>
+                              <a href="#" class="badge badge-success badge-pill">{{recipe['category']}}</a>
                             </div>
                             <div class="col-sm-4 text-right">
                               <small>
-                                <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                                <a href="#" data-toggle="modal" data-target="#deleteModal" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
+                                <button data-action="{{url_for('edit_recipe',id = recipe['id'])}}" class="btn btn-outline-success btn-sm editRecipeBtn" data-name="{{recipe['name']}}" data-description="{{recipe['description']}}" data-category="{{recipe['category_id']}}"><i class="ion-edit"></i>&nbsp;Edit</button>
+                                <button class="btn btn-outline-danger btn-sm deleteRecipeBtn" data-action="{{url_for('delete_recipe',id=recipe['id'])}}"><i class="ion-android-close"></i>&nbsp;Delete</button>
                               </small>
                             </div>
                           </div>
@@ -98,201 +113,29 @@
                     </div>
                     <div class="col-md-2 no-padding text-center likes-div">
                       <i class="ion-ios-heart-outline btn-like"></i>
-                      <p class="text-success">37.5K</p>
+                      <p class="text-success">0</p>
                     </div>
                   </div>
-
-                  <div class="row card-comp">
-                    <div class="col-md-10 no-padding">
-                      <div class="card animated fadeIn single-card">
-                        <div class="card-header">
-                          Grilled beef burgers
-                        </div>
-                        <div class="card-body">
-                          <a href="#">
-                            <div class="rec-description">
-                              <p>
-                                Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-                              </p>
-                            </div>
-                          </a>
-                          <div class="row">
-                            <div class="col-sm-8">
-                                <small class="text-muted">Two days ago &nbsp;<i class="ion-egg"></i></small>
-                                <a href="#" class="badge badge-success badge-pill">Burgers</a>
-                            </div>
-                            <div class="col-sm-4 text-right">
-                              <small>
-                                <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-2 no-padding text-center likes-div">
-                      <i class="ion-ios-heart-outline btn-like"></i>
-                      <p class="text-success">37.5K</p>
-                    </div>
+                  {% else %}
+                  <div class="col-md-12 alert alert-light">
+                    <p class="text-muted">
+                      No recipes added yet
+                    </p>
                   </div>
-
-                  <div class="row card-comp">
-                    <div class="col-md-10 no-padding">
-                      <div class="card animated fadeIn single-card">
-                        <div class="card-header">
-                          Home made mayonnaise
-                        </div>
-                        <div class="card-body">
-                          <a href="#">
-                            <div class="rec-description">
-                              <p>
-                                Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-                              </p>
-                            </div>
-                          </a>
-                          <div class="row">
-                            <div class="col-sm-8">
-                              <small class="text-muted">Two days ago &nbsp;<i class="ion-egg"></i></small>
-                              <a href="#" class="badge badge-success badge-pill">Appetisers</a>
-                            </div>
-                              
-
-                            <div class="col-sm-4 text-right">
-                              <small>
-                                <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-2 no-padding text-center likes-div">
-                      <i class="ion-ios-heart-outline btn-like"></i>
-                      <p class="text-success">37.5K</p>
-                    </div>
-                  </div>
-
-                  <div class="row card-comp">
-                    <div class="col-md-10 no-padding">
-                      <div class="card animated fadeIn single-card">
-                        <div class="card-header">
-                          Cheese pizza
-                        </div>
-                        <div class="card-body">
-                          <a href="#">
-                            <div class="rec-description">
-                              <p>
-                                Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-                              </p>
-                            </div>
-                          </a>
-                          <div class="row">
-                            <div class="col-sm-8">
-                              <small class="text-muted">Two days ago &nbsp;<i class="ion-egg"></i></small>
-                              <a href="#" class="badge badge-success badge-pill">Pizza</a>
-                            </div>
-                            <div class="col-sm-4 text-right">
-                              <small>
-                                <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-2 no-padding text-center likes-div">
-                      <i class="ion-ios-heart-outline btn-like"></i>
-                      <p class="text-success">37.5K</p>
-                    </div>
-                  </div>
-
-                  <div class="row card-comp">
-                    <div class="col-md-10 no-padding">
-                      <div class="card animated fadeIn single-card">
-                        <div class="card-header">
-                          Jinja tea
-                        </div>
-                        <div class="card-body">
-                          <a href="#">
-                            <div class="rec-description">
-                              <p>
-                                Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-                              </p>
-                            </div>
-                          </a>
-                          <div class="row">
-                            <div class="col-sm-8">
-                              <small class="text-muted">Two days ago &nbsp;<i class="ion-egg"></i></small>
-                              <a href="#" class="badge badge-success badge-pill">Tea</a>
-                            </div>
-                            <div class="col-sm-4 text-right">
-                              <small>
-                                <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-2 no-padding text-center likes-div">
-                      <i class="ion-ios-heart-outline btn-like"></i>
-                      <p class="text-success">37.5K</p>
-                    </div>
-                  </div>
-
-                  <div class="row card-comp">
-                    <div class="col-md-10 no-padding">
-                      <div class="card animated fadeIn single-card">
-                        <div class="card-header">
-                          Popcorn
-                        </div>
-                        <div class="card-body">
-                          <a href="#">
-                            <div class="rec-description">
-                              <p>
-                                Curabitur non nulla sit amet nisl tempus convallis quis ac lectus. Curabitur non nulla sit amet nisl tempus convallis quis ac lectus.
-                              </p>
-                            </div>
-                          </a>
-                          <div class="row">
-                            <div class="col-sm-8">
-                              <small class="text-muted">Two days ago &nbsp;<i class="ion-egg"></i></small>
-                              <a href="#" class="badge badge-success badge-pill">Popcorn</a>
-                            </div>
-                            <div class="col-sm-4 text-right">
-                              <small>
-                                <a href="#" data-toggle="modal" data-target="#editModal" class="btn btn-outline-success btn-sm"><i class="ion-edit"></i>&nbsp;Edit</a>
-                                <a href="#" class="btn btn-outline-danger btn-sm"><i class="ion-android-close"></i>&nbsp;Delete</a>
-                              </small>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-md-2 no-padding text-center likes-div">
-                      <i class="ion-ios-heart-outline btn-like"></i>
-                      <p class="text-success">37.5K</p>
-                    </div>
-                  </div>
+                  {% endfor %}
         <!--/Recipe card lists-->
                 </div>
                 <div class="card-body text-center">
-                    <!--Pagination-->
-                    <nav>
+                    {#<nav>
                       <ul class="pagination justify-content-center">
                         <li class="page-item"><a class="page-link text-success" href="#">1</a></li>
                         <li class="page-item"><a class="page-link text-success" href="#">2</a></li>
                         <li class="page-item"><a class="page-link text-success" href="#">3</a></li>
                         <li class="page-item"><a class="page-link text-success" href="#">&raquo;</a></li>
                       </ul>
-                    </nav>
-                    <!--Pagination--> 
-                    <a href="addrecipe.html">
-                      <span class="btn btn-sm btn-success"><i class="ion-ios-plus-empty"></i> &nbsp;Add new recipe </span>
+                    </nav>#}
+                    <a href="{{ url_for('addrecipe') }}">
+                      <span class="btn btn-success btn-sm"><i class="ion-ios-plus-empty"></i> &nbsp;Add new recipe </span>
                     </a>
                 </div>
               </div>
@@ -301,7 +144,7 @@
       </div>
 <!--/Main Content-->
 <!---Edit form Modal-->
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editRecipe" aria-hidden="true">
+<div class="modal fade" id="editRecipeModal" tabindex="-1" role="dialog" aria-labelledby="editRecipe" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -310,14 +153,16 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
+      <form method="POST" class="editRecipeForm" action="" id="editRecipeForm">
       <div class="modal-body">
-        <form method="POST" action="">
+        
+          {{ form.csrf_token }}
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-btn">
                 <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-ios-nutrition"></i></button>
               </span>
-              <input type="text" name="category" class="form-control gr-input" placeholder="Recipe name ..."/>
+              {{ form.name(class='form-control gr-input',placeholder = 'Recipe name ...',id="recipeName")}}
             </div>
           </div>
           <div class="form-group">
@@ -325,13 +170,7 @@
               <span class="input-group-btn">
                 <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
               </span>
-              <select type="text" name="category" class="form-control gr-input">
-                <option>Ice cream</option>
-                <option>Drinks</option>
-                <option>Dessert</option>
-                <option selected>Chips</option>
-                <option>Burgers</option>
-              </select>
+              {{ form.category(class='form-control gr-input',placeholder = 'Recipe category name ...')}}
             </div>
           </div>
           <div class="form-group">
@@ -339,25 +178,49 @@
               <span class="input-group-btn gr-group">
                 <button class="btn btn-label-texarea" type="button" tabindex="-1"><i class="ion-android-restaurant"></i></button>
               </span>
-              <textarea name="description" spellcheck="false" class="form-control gr-textarea" placeholder="Recipe description ..." aria-label="Recipe description">Vivamus suscipit tortor eget felis porttitor volutpat. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi.</textarea>
+              {{ form.description(class='form-control gr-textarea',placeholder = 'Recipe description ...',id='recipeDescription')}}
             </div>
           </div>
-        </form>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Discard</button>
-        <button type="button" class="btn btn-success btn-sm">Save changes</button>
+        <button type="submit" class="btn btn-success btn-sm">Save changes</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
 <!--/Edit form Modal-->
 <!---Delete alert Modal-->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteRecipe" aria-hidden="true">
-  <div class="modal-dialog" role="document">
+<div class="modal fade" id="deleteCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteCategory" aria-hidden="true">
+  <div class="modal-dialog" role="dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editRecipe">Do you really want to delete?</h5>
+        <h5 class="modal-title">Do you really want to delete this category?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>
+          Are you sure you want to delete this recipe category? Also the recipes included in this category will be deleted.
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancel</button>
+        <a href="#" class="btn btn-danger btn-sm" id="deleteCategoryLink">Yes, Delete it</a>
+      </div>
+    </div>
+  </div>
+</div>
+<!--/Delete alert Modal-->
+<!---Delete alert Modal-->
+<div class="modal fade" id="deleteRecipeModal" tabindex="-1" role="dialog" aria-labelledby="deleteRecipe" aria-hidden="true">
+  <div class="modal-dialog" role="dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Do you really want to delete this recipe?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -369,14 +232,14 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancel</button>
-        <button type="submit" class="btn btn-danger btn-sm">Yes, Delete it</button>
+        <a href="#" class="btn btn-danger btn-sm" id="deleteRecipeLink">Yes, Delete it</a>
       </div>
     </div>
   </div>
 </div>
 <!--/Delete alert Modal-->
 <!---Add new recipe Ccategory Modal-->
-<div class="modal fade" id="newCategoryModal" tabindex="-1" role="dialog" aria-labelledby="deleteRecipe" aria-hidden="true">
+<div class="modal fade" id="newCategoryModal" tabindex="-1" role="dialog" aria-labelledby="addRecipeCategory" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -386,23 +249,57 @@
         </button>
       </div>
       <div class="modal-body">
-        <form method="POST" action="">
+        <form method="POST" action="{{url_for('add_category')}}">
           <div class="form-group">
             <div class="input-group">
               <span class="input-group-btn">
                 <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
               </span>
-              <input type="text" name="name" class="form-control gr-input" placeholder="Recipe category name ..." aria-label="Recipe name">
+              {{ form.csrf_token }}
+              {{ categoryForm.name(class='form-control gr-input',placeholder = 'Recipe category name ...')}}
             </div>
           </div>
-        </form>
+        
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancel</button>
         <button type="submit" class="btn btn-success btn-sm">Save category</button>
       </div>
+    </form>
     </div>
   </div>
 </div>
 <!--/Add new  recipe category Modal-->
+<!---Edit recipe Category Modal-->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" role="dialog" aria-labelledby="editRecipeCategory" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editRecipeCategoryTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="" id="editRecipeCategoryForm">
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn btn-label" type="button" tabindex="-1"><i class="ion-icecream"></i></button>
+              </span>
+              {{ form.csrf_token }}
+              {{ categoryForm.name(class='form-control gr-input',placeholder = 'Recipe category name ...', id='editRecipeCategoryInput', value='')}}
+            </div>
+          </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-light btn-sm" data-dismiss="modal">Cancel</button>
+        <button type="submit" class="btn btn-success btn-sm">Save category</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+<!--/Edit  recipe category Modal-->
 {% endblock %}

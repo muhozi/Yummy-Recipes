@@ -20,6 +20,7 @@ class User(object):
 			'email': self.email,
 			'password': self.password,
 			'created_at': self.created,
+			'categories': list(),
 		}
 		if (self.email_exist(self.email)):
 			return False
@@ -29,6 +30,12 @@ class User(object):
 		users = Store().get_users()
 		for user in users:
 			if (user['email'] == email):
+				return True
+		return False
+	def exist_id(self,id):
+		users = Store().get_users()
+		for user in users:
+			if (user['id'] == id):
 				return True
 		return False
 	def exist(self,email,password):
