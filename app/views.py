@@ -8,32 +8,18 @@ from app.models.store import Store
 from app.models.user import User
 from app.models.category import Category
 from app.models.recipe import Recipe
-# Remove this before pushing
-import uuid
+
 store = Store()
-exist_user = {
-	'id': uuid.uuid4().hex ,
-	'name': 'Muhozi Emery',
-	'email': 'muhozie@gmail.com',
-	'password': '123456',
-	'repassword': '123456'
-}
-user = User().save(
-	name=exist_user['name'],
-	email=exist_user['email'],
-	password=generate_password_hash(exist_user['password']),
-	created=datetime.now(),
-	user_id=exist_user['id'],
-)
 """ 
 	Only logged in user Middleware function
 """
 def auth(n):
 	@wraps(n)
 	def wrap(*args, **kwargs):
-		if 'logged_in' in session and session['logged_in'] == True and 'user_id' in session and session['logged_in']:
+		if 'logged_in' in session and session['logged_in'] == True and 'user_id' in session and session['logged_in'] and User().exist_id(session['user_id']):
 			return n(*args, **kwargs)
 		else:
+			session.clear()
 			return redirect(url_for('login'))
 	return wrap
 
@@ -119,7 +105,7 @@ def login():
 	Logout route
 """
 @app.route('/logout')
-@auth
+# @auth
 def logout():
 	session.clear()
 	return redirect(url_for('login'))
